@@ -1,0 +1,189 @@
+https://github.com/somenam/ProjectManager.git
+ База данных создана. Для пользователя u254762260_root установлен пароль rootroot
+рппр
+дрУПСТ
+ty3ve5
+
+<jekc03> pm   
+pm1978080 
+[15.11.2016 20:59:20] <jekc03> напомни логин и пароль
+[15.11.2016 20:59:23] <jekc03> ок
+[15.11.2016 21:00:58] <jekc03> http://46.166.172.197:8080/
+
+
+27.10.2016 16:27:22] <jekc03> project
+9azg7XrFmjLiAnC6
+[27.10.2016 16:28:01] <andrew.sos> можно ссылку на пхпмайадмин?
+[27.10.2016 16:28:16] <jekc03> http://46.166.172.197/phpmyadmin/
+
+
+'connectionString' => 'mysql:host=localhost;dbname=u254762260_proje',
+	'emulatePrepare' => true,
+	'username' => 'u254762260_root',
+	'password' => 'rootroot',
+	'charset' => 'utf8',
+
+
+public function up()
+    {
+        $this->createTable('user', array(
+            'id' => 'pk',
+            'username' => 'string NOT NULL',
+            'password' => 'string NOT NULL',
+            'email' => 'string NOT NULL',
+            'jabber' => 'string NOT NULL',
+            'role' => 'integer NOT NULL',
+            'status' => 'integer NOT NULL',
+        ));
+
+        $this->insert('user', array(
+            'username' => 'admin',
+            'password' => md5('admin'),
+            'role' => 2,
+            'status' => 1
+        ));
+    }
+
+    public function down()
+    {
+        $this->dropTable('user');
+    }
+
+
+
+public function up()
+    {
+        $this->createTable('project', array(
+            'id' => 'pk',
+            'ip' => 'string NOT NULL',
+            'country_id' => 'integer NOT NULL',
+            'name' => 'string NOT NULL',
+            'info1' => 'text NOT NULL',
+            'info2' => 'text NOT NULL',
+            'domain_admin' => 'boolean NOT NULL',
+            'status' => 'integer NOT NULL',
+        ));
+    }
+
+    public function down()
+    {
+        $this->dropTable('project');
+    }
+
+
+public function up()
+	{
+            $this->createTable('projects_user', array(
+            'id' => 'pk',
+            'project_id' => 'integer NOT NULL',
+            'user_id' => 'integer NOT NULL',
+            'status' => 'integer NOT NULL',
+        ));
+	}
+
+	public function down()
+	{
+		$this->dropTable('projects_user');
+	}
+
+
+public function up()
+    {
+        $this->createTable('country', array(
+            'id' => 'pk',
+            'code' => 'string NOT NULL',
+            'name' => 'string NOT NULL',
+            'flag' => 'string NOT NULL',
+        ));
+    }
+
+    public function down()
+    {
+       $this->dropTable('country');
+    }
+
+public function up()
+    {
+        $this->createTable('task', array(
+            'id' => 'pk',
+            'name' => 'string NOT NULL',
+            'description' => 'text NOT NULL',
+            'comment' => 'text NOT NULL',
+            'project_id' => 'integer NOT NULL',
+            'user_id' => 'integer NOT NULL',
+            'create_time' => 'integer NOT NULL',
+            'status' => 'integer NOT NULL',
+        ));
+    }
+
+    public function down()
+    {
+        $this->dropTable('task');
+    }
+
+
+public function up()
+	{
+            $this->insert('country', array(
+            'code' => 'US',
+            'name' => 'USA',
+            'flag' => 'US.png',
+        ));
+	}
+
+	public function down()
+	{
+		//$this->dropTable('country');
+	}
+
+
+public function up()
+	{
+            $this->addColumn('project', 'sistem', 'string NOT NULL');
+	}
+
+	public function down()
+	{
+		//$this->dropTable('project');
+	}
+
+
+public function up()
+    {
+        $this->createTable('task_time', array(
+            'id' => 'pk',
+            'user_id' => 'integer NOT NULL',
+            'task_id' => 'integer NOT NULL',
+            'date' => 'string NOT NULL',
+            'start_time' => 'integer NOT NULL',
+            'end_time' => 'integer NOT NULL',
+        ));
+    }
+
+    public function down()
+    {
+        $this->dropTable('task_time');
+    }
+
+
+
+<p></p>
+<? if($task->status == 0):?>
+
+<? if(Task::haveTask()):?>
+У вас уже есть задача в работе
+<?else:?>
+<?= CHtml::link('Взять задачу', array('task/take', 'taskId' => $task->id)); ?>
+<? endif;?>
+<p></p>
+<p><?= CHtml::link('Завершить задачу', array('task/setStatus', 'taskId' => $task->id, 'status' => '2')); ?></p>
+<? endif;?>
+
+<? if($task->status == 2):?>
+<p><?= CHtml::link('Открыть задачу', array('task/setStatus', 'taskId' => $task->id, 'status' => '0')); ?></p>
+<? endif;?>
+
+<p></p>
+<? if(Task::isUserTask($task->id) && $task->status == 1):?>
+<?= CHtml::link('Остановить задачу', array('task/stop', 'taskId' => $task->id)); ?>
+<? endif;?>

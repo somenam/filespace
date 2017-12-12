@@ -1,0 +1,8 @@
+/protected/migrations/m161027_131732_create_project_table.php
+/protected/migrations/m161027_131545_create_user_table.php
+/protected/migrations/m161027_132021_create_projects_user_table.php
+/protected/migrations/m161027_132140_create_country_table.php
+/protected/migrations/m161027_132302_create_task_table.php
+/protected/migrations/m161027_132416_insert_country.php
+/protected/migrations/m161027_132539_add_sistem.php
+/protected/runtime/
